@@ -10,3 +10,4 @@
         * 其次，安装完后，你还是要e编辑grub的 ubuntu菜单在quite splash 后添加nomodeset，不然会黑屏
         * 然后，在dock里搜索software&update，安装它提供的驱动。
         * 重启后就不要'nomodeset'选项了，进入，sudo vim /etc/default/grub，删除nomodeset, update-grub
+    * 然后开机自启动程序的话，dock搜索startup application就可以了。
