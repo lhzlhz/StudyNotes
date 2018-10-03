@@ -11,3 +11,4 @@
         * 然后，在dock里搜索software&update，安装它提供的驱动。
         * 重启后就不要'nomodeset'选项了，进入，sudo vim /etc/default/grub，删除nomodeset, update-grub
     * 然后开机自启动程序的话，dock搜索startup application就可以了。
+    * firefox的flashplayer插件的存放地址为/usr/lib/mozilla/plugins/
