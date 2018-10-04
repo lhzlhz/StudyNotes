@@ -168,6 +168,11 @@ message_filters是消息滤波器。
   * 其时间同步有两个方法:
     1. message_filters::sync_policies::ExactTime 需要消息有完全一致的时间戳去匹配。回调函数只有在所有channels接收到相同时间戳的消息才会被调用。
     2. message_filters::sync_policies::ApproximateTime：算法比较复杂，个人理解如下。
+      * 首先，将该算法的输出称为集合(set)，即消息类型不同，但时间戳相近的message的集合。
+      * 当某个集合$S$被发布后，所有topic中，比$S$中相应的topic的message早的message都会被丢弃。
+      * 当每个topic都至少拥有一个message后，令时间戳最迟的那一条消息为主元(pivot)。
+      * 然后查找其他topic中所有比主元早的消息，看看他后面一条消息时间是否是比主元迟，是的话则该消息成为将要发布的set$L$的一分子。
+        ![ApproximateTime.png](http://wiki.ros.org/message_filters/ApproximateTime?action=AttachFile&do=get&target=ApproximateTimeExample.png)
 
 ## 坑
 
