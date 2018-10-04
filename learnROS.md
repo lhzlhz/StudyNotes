@@ -172,6 +172,7 @@ message_filters是消息滤波器。
       * 当某个集合$S$被发布后，所有topic中，比$S$中相应的topic的message早的message都会被丢弃。
       * 当每个topic都至少拥有一个message后，令时间戳最迟的那一条消息为主元(pivot)。
       * 然后查找其他topic中所有比主元早的消息，看看他后面一条消息时间是否是比主元迟，是的话则该消息成为将要发布的set$L$的一分子。
+         
         ![ApproximateTime.png](http://wiki.ros.org/message_filters/ApproximateTime?action=AttachFile&do=get&target=ApproximateTimeExample.png)
 
 ## 坑
