@@ -37,3 +37,9 @@
     * AbstractSender\<cloud\>-->CloudOdomRosSubscriber
     * AbstractClient,AbstractSender-->DepthGroundRemover。DepthGroundRemover作为CloudOdomRosSubscriber的订阅者，接收点云信息；同时它又作为image_based_cluster的发布者，将其去除地面后的点云信息发布给后者。
     * CloudProjection类负责把点云投影成深度图像。
+2. RangeImage(depth Image)的生成方法
+    * cols自给，不要超过360/雷达分辨率。rows为雷达的线数。
+    * 生成深度图像时，从点云生成的方法是：
+      * 先确定每个col对应的角度，然后 atan2(point.x,point.y)求出方向角，再找哪个col最接近这个角，这便为这个point在深度图像中的col。
+      * 该点的row为该点生成时的ring（推测为第几束激光射出去的编号） 
+   

@@ -118,4 +118,18 @@ void write_to_file (const std::string & message) {
 
 * protect 关键字保证除了该类的继承类可以访问这些成员，其他用户无法访问。
 * 派生类的类派生列表(class derivation list)：由一个冒号和一个以逗号分隔的基类列表组成。每个基类可以有三种访问说明符:public、protected、private。这些说明符决定了该基类的public成员与方法在派生类中的可见程度。
-* 
+* 基类的引用或者指针可以指向派生类的实例，而由这个引用或者指针调用基类方法时会调用指向的派生类的实例的方法。
+
+## std::vector
+
+值得注意的成员方法
+* std::vector::front() 返回容器中第一个元素的引用。
+* std::vector::back() 返回容器中最后一个元素的引用。
+* std::vector::rend() reverse end 返回容器中反向迭代器的最后一个迭代器。
+
+值得注意的非成员方法
+
+* std::upper_bound()
+  * 函数原型 template< class ForwardIt, class T >
+ForwardIt upper_bound( ForwardIt first, ForwardIt last, const T& value );
+  * 该方法在迭代器first与last中找到第一个比value大的成员，并且返回其迭代器，若没有则返回last的迭代器。
