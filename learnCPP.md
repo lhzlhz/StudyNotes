@@ -113,3 +113,9 @@ void write_to_file (const std::string & message) {
 }
 
 ```
+
+## 继承、基类与派生类
+
+* protect 关键字保证除了该类的继承类可以访问这些成员，其他用户无法访问。
+* 派生类的类派生列表(class derivation list)：由一个冒号和一个以逗号分隔的基类列表组成。每个基类可以有三种访问说明符:public、protected、private。这些说明符决定了该基类的public成员与方法在派生类中的可见程度。
+* 
