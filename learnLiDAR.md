@@ -1,4 +1,4 @@
-# Velodyne VLP-16激光雷达
+R# Velodyne VLP-16激光雷达
 
 ## 数据类型
 
@@ -42,4 +42,16 @@
     * 生成深度图像时，从点云生成的方法是：
       * 先确定每个col对应的角度，然后 atan2(point.x,point.y)求出方向角，再找哪个col最接近这个角，这便为这个point在深度图像中的col。
       * 该点的row为该点生成时的ring（推测为第几束激光射出去的编号） 
-   
+3. RangeImage的修复方法：
+    * 遍历图像中，深度值小于0.01f的地方。
+    * 若某点深度值小于0.01f，则搜寻该点上5行和下五行的，列数相同的点，这些点中，深度值相近的点会被采用，来计算该点的深度。举例来说，若点(i,j)深度值接近0，并且d(i+2,j) - d(i-3,j) < threshold，则把d(i+2,j)，d(i-3,j)的值存入sum变量中，同时计数器count += 2。该点的最终像素为sum/count。
+4. 进行ground removal的三条假设：
+    1. 激光雷达在机器人上几乎水平。
+    2. 地面曲率不是很大。
+    3. 至少在图像的最下面一行中的一些像素中检测到了地面。
+5. 从深度图像创建AngleImage的方法。
+    * 为何要创建AngleImage?该angle反映了所观测物体表面的斜率，这对去除地面很有效。
+    * AngleImage的每个像素的计算公式由下给出
+    $$\alpha = atan2(||\Delta z||, ||\Delta x||)$$
+    $$\Delta z = |R_{r-1,c}sin\zeta_a - R_{r,c}sin\zeta_b|$$
+    $$\Delta x = |R_{r-1,c}cos\zeta_a - R_{r,c}cos\zeta_b|$$             
