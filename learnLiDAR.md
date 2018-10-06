@@ -15,7 +15,6 @@ R# Velodyne VLP-16激光雷达
     $$Z = R*sin(\omega)$$
     其中$\omega$是图中$\theta$的余角，$\theta$是$\phi$的余角。
 
-4. Savitzky–Golay filter:通过对指定窗口大小的数据进行多项式拟合来尽可能保证信噪比的情况下，剔除outliers。![Savitzky-Golay filter](https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Lissage_sg3_anim.gif/600px-Lissage_sg3_anim.gif)
 
 ## 激光返回模式(laser return modes)：
 
@@ -54,4 +53,10 @@ R# Velodyne VLP-16激光雷达
     * AngleImage的每个像素的计算公式由下给出
     $$\alpha = atan2(||\Delta z||, ||\Delta x||)$$
     $$\Delta z = |R_{r-1,c}sin\zeta_a - R_{r,c}sin\zeta_b|$$
-    $$\Delta x = |R_{r-1,c}cos\zeta_a - R_{r,c}cos\zeta_b|$$             
+    $$\Delta x = |R_{r-1,c}cos\zeta_a - R_{r,c}cos\zeta_b|$$  
+      其中，$\zeta_a$ $\zeta_b$如图所示。    
+      ![lidar](https://wp.me/aakuHy-1c)
+6. 随后用Savitsky-Golay作为kernel调用cv::filter2d()来对AngleImage进行平滑。
+   * Savitzky–Golay filter:通过对指定窗口大小的数据进行多项式拟合来尽可能保证信噪比的情况下，剔除outliers。![Savitzky-Golay filter](https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Lissage_sg3_anim.gif/600px-Lissage_sg3_anim.gif)
+
+           
