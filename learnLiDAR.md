@@ -60,6 +60,10 @@ R# Velodyne VLP-16激光雷达
    * Savitzky–Golay filter:通过对指定窗口大小的数据进行多项式拟合来尽可能保证信噪比的情况下，剔除outliers。![Savitzky-Golay filter](https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Lissage_sg3_anim.gif/600px-Lissage_sg3_anim.gif)
 7. 然后运用广度优先搜索(BFS)来进行去除地面的操作。
    * BFS： 已知图G=(V,E)和一个源顶点s，算法自始至终一直通过已找到和未找到顶点之间的边界向外扩展，就是说，算法首先搜索和s距离为k的所有顶点，然后再去搜索和S距离为k+l的其他顶点。
-   * 具体到该工程中是，把angle_image最后一行的每一列都加入队列中，对队列中的每个元素，进行搜寻它的四邻域，如果其angle与当前queue.front()小于thresh，则将其push到队列中。
+   * 具体到该工程中是，把angle_image最后一行的每一列进行判断，小于start_thresh(为5度)都加入队列中，对队列中的每个元素，首先标记它是地面（标记为1），进行搜寻它的四邻域，如果其angle与当前queue.front()小于thresh，则将其push到队列中。
+8. 上一步的标记是通过对一个和angle_image同size的label_image mat进行对应像素点的赋值决定的。BFS结束后，对这个label_image进行膨胀操作以消除漏洞。然后把depth_image中，label_image对应像素为0（也就是不是地面的部分）提取出来放到result_mat中，然后由DepthGroundRemover这个类广播给ImageBasedClusterer<LinearImageLabeler<>>类。
+9. 用广度优先搜索来分类，具体步骤如下：
+    * 首先定义一个label，初始值为1，这个label变量就是分类时物体的标号。
+    * 然后对于remove ground后的depth_image的每个像素进行遍历，先把其push进queue中，算其相对于其邻域像素的关于论文中的论文中的$\alpha$角，小于阈值的则push进queue中，并把这些点全标记为label的值。
 
            

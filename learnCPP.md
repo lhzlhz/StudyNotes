@@ -150,6 +150,54 @@ ForwardIt upper_bound( ForwardIt first, ForwardIt last, const T& value );
   * push()　向队列尾插入元素
   * pop() 删除第一个元素
 
+## std::priority_queue
+
+* template<
+    class T,
+    class Container = std::vector\<T\>,
+    class Compare = std::less\<typename Container::value_type\>\> class priority_queue; 		
+* priority_queue 是容器适配器，它提供常数时间的（默认）最大元素查找，对数代价的插入与释出。
+* 可用用户提供的 Compare 更改顺序，例如，用 std::greater<T> 将导致最小元素作为 top() 出现。 
+```cpp
+#include <functional>
+#include <queue>
+#include <vector>
+#include <iostream>
+ 
+template<typename T> void print_queue(T& q) {
+    while(!q.empty()) {
+        std::cout << q.top() << " ";
+        q.pop();
+    }
+    std::cout << '\n';
+}
+ 
+int main() {
+    std::priority_queue<int> q;
+ 
+    for(int n : {1,8,5,6,3,4,0,9,7,2})
+        q.push(n);
+ 
+    print_queue(q);
+ 
+    std::priority_queue<int, std::vector<int>, std::greater<int> > q2;
+ 
+    for(int n : {1,8,5,6,3,4,0,9,7,2})
+        q2.push(n);
+ 
+    print_queue(q2);
+ 
+    // 用 lambda 比较元素。
+    auto cmp = [](int left, int right) { return (left ^ 1) < (right ^ 1);};
+    std::priority_queue<int, std::vector<int>, decltype(cmp)> q3(cmp);
+ 
+    for(int n : {1,8,5,6,3,4,0,9,7,2})
+        q3.push(n);
+ 
+    print_queue(q3);
+ 
+}
+```
 ## constexpr
 
 * 常量表达式(const expression):是指值不会改变，并且在编译过程中就得到计算结果的表达式。
