@@ -133,3 +133,53 @@ void write_to_file (const std::string & message) {
   * 函数原型 template< class ForwardIt, class T >
 ForwardIt upper_bound( ForwardIt first, ForwardIt last, const T& value );
   * 该方法在迭代器first与last中找到第一个比value大的成员，并且返回其迭代器，若没有则返回last的迭代器。
+
+## std::array
+
+* 其语义等同于保有一个 C 风格数组 T[N] 作为其唯一非静态数据成员的结构体。
+* 该结构体结合了 C 风格数组的性能和可访问性和容器的优点，譬如知晓其大小、支持赋值、随机访问等。
+* std::array\<template T, int num\>。
+
+## std::queue
+
+* template\<class T,class Container = std::deque\<T\>\> class queue;
+* std::queue 类是容器适配器，它给予程序员队列的功能——尤其是 FIFO （先进先出）数据结构。类模板表现为底层容器的包装器——只提供特定的函数集合。 queue 在底层容器尾端推入元素，从首端弹出元素。 
+* 成员函数
+  * front()　访问第一个元素
+  * back()　访问最后一个元素
+  * push()　向队列尾插入元素
+  * pop() 删除第一个元素
+
+## constexpr
+
+* 常量表达式(const expression):是指值不会改变，并且在编译过程中就得到计算结果的表达式。
+  ``` cpp
+  const int i=3;    //是一个常量表达式
+  const int j=i+1; //是一个常量表达式
+  int k=23;        //k的值可以改变，从而不是一个常量表达式
+  const int m=f(); //不是常量表达式，m的值只有在运行时才会获取。
+  ```
+* C++11允许声明constexpr类型来由编译器检验变量的值是否是一个常量表达式。声明为constexpr的必须是一个常量，并且只能用常量或者常量表达式来初始化。一般来说，若果一旦认定变量是一个常量表达式，那就把它声明为constexpr类型。
+  ```cpp
+  constexpr int i=3;
+  constexpr int j=i+1;
+  constexpr int k=f(); //只有f()是一个constexpr函数时k才是一个常量表达式
+  ```
+* 必须明确一点，在constexpr声明中，如果定义了一个指针，限定符号constexpr仅仅对指针有效，与指针所指对象无关。
+  ```cpp
+  const int *p=nullptr;  //p是一个指向整型常量的指针（pointer to const）
+  constexpr int *p1=nullptr; //p1是一个常量指针(const pointer)
+  ```
+
+## 泛型编程与模板
+
+* 非类型模板参数  
+  1. 一个非类型参数表示一个值而非一个类型。我们通过一个特定的类型名而非关键字class或typename来指定非类型参数。
+  2. 当一个模板被实例化时，非类型参数被一个用户提供的或编译器推断出的值所代替。这些值必须是常量表达式，从而允许编译器在编译时实例化模板。
+  ```cpp
+  template<unsigned N, unsigned M>
+  int compare(const char (&p1)[N], const char (&p2)[M])
+  {
+    return strcmp(p1,p2);
+  }
+  ``` 

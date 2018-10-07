@@ -58,5 +58,8 @@ R# Velodyne VLP-16激光雷达
       ![lidar](https://wp.me/aakuHy-1c)
 6. 随后用Savitsky-Golay作为kernel调用cv::filter2d()来对AngleImage进行平滑。
    * Savitzky–Golay filter:通过对指定窗口大小的数据进行多项式拟合来尽可能保证信噪比的情况下，剔除outliers。![Savitzky-Golay filter](https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Lissage_sg3_anim.gif/600px-Lissage_sg3_anim.gif)
+7. 然后运用广度优先搜索(BFS)来进行去除地面的操作。
+   * BFS： 已知图G=(V,E)和一个源顶点s，算法自始至终一直通过已找到和未找到顶点之间的边界向外扩展，就是说，算法首先搜索和s距离为k的所有顶点，然后再去搜索和S距离为k+l的其他顶点。
+   * 具体到该工程中是，把angle_image最后一行的每一列都加入队列中，对队列中的每个元素，进行搜寻它的四邻域，如果其angle与当前queue.front()小于thresh，则将其push到队列中。
 
            
