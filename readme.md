@@ -12,3 +12,10 @@
         * 重启后就不要'nomodeset'选项了，进入，sudo vim /etc/default/grub，删除nomodeset, update-grub
     * 然后开机自启动程序的话，dock搜索startup application就可以了。
     * firefox的flashplayer插件的存放地址为/usr/lib/mozilla/plugins/
+
+* 10.8更新
+    * anaconda包和系统原生的python包含路径好像是会冲突的，见下
+    >  I have anaconda library installed in my home directory. So cmake is detecting intel MKL and other libraries from that folder. i have updated my LD_LIBRARY_PATH variable to include that folder and the issues are resolved.
+    >Just add the following line to /.bashrc in case you have anaconda installed in folder
+
+    >export LD_LIBRARY_PATH=/path_to_lib_folder/lib:$LD_LIBRARY_PATH

@@ -133,7 +133,7 @@ void write_to_file (const std::string & message) {
   * 函数原型 template< class ForwardIt, class T >
 ForwardIt upper_bound( ForwardIt first, ForwardIt last, const T& value );
   * 该方法在迭代器first与last中找到第一个比value大的成员，并且返回其迭代器，若没有则返回last的迭代器。
-
+* std::reverse()：作用是将输入的两个迭代器之间的元素反序 
 ## std::array
 
 * 其语义等同于保有一个 C 风格数组 T[N] 作为其唯一非静态数据成员的结构体。
