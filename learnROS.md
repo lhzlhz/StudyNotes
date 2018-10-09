@@ -175,6 +175,10 @@ message_filters是消息滤波器。
          
         ![ApproximateTime.png](http://wiki.ros.org/message_filters/ApproximateTime?action=AttachFile&do=get&target=ApproximateTimeExample.png)
 
+## nodelet
+
+详见[这个网址](https://www.cnblogs.com/21207-iHome/p/8213411.html)。
+
 ## 坑
 
 * ros kinetic + ubuntu16.04 + gcc 5.0+ 会导致链接问题：undefined reference to `ros::console::initialize()……'
