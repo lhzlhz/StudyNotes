@@ -83,11 +83,13 @@
 2. 但是由于算法本身的原理问题，使得在面对线数比较少的激光雷达时，识别效果会大大下降，若采用16线的雷达的话，其本身的分辨率则不允许该算法检测到20米以上的，尺寸较小（直径小于60cm)的物体。
 3. 当想用低线数雷达检测较远处的物体，则在vertical方向上顶多只有两三线能够检测到物体，这时我们不如把三维雷达退化为一个二维雷达来解决问题，下面学习的这个Project就是对二维雷达障碍物检测的例子。
 
-## Obstacle_detection
+## obstacle_detection
 
 ### 源码地址
 
 [https://github.com/EpsAvlc/obstacle_detector](https://github.com/EpsAvlc/obstacle_detector)
+
+### 具体实现详解
 
 
            
