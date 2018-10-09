@@ -35,6 +35,12 @@
 
 ## deep_clustering
 
+### 源码地址
+
+[https://github.com/EpsAvlc/depth_clustering)](https://github.com/EpsAvlc/depth_clustering)
+
+### 具体实现详解
+
 1. A-->B 表示 A是B的基类，则有：
     * identifiable-->AbstractClient, identifiable-->AbstractSender。identifiable类的作用主要是给继承该类的子类提供唯一的id，以及显示其类名的方法（见identifiable::guess_class_name()）。
     * AbstractClient与AbstractSender组成了一个发布者/订阅者模型。AbstractSender通过调用其ShareDataWithAllClients()方法来调用所有client的OnNewObjectReceived()方法来处理数据。
@@ -70,5 +76,18 @@
 9. 用广度优先搜索来分类，具体步骤如下：
     * 首先定义一个label，初始值为1，这个label变量就是分类时物体的标号。
     * 然后对于remove ground后的depth_image的每个像素进行遍历，先把其push进queue中，算其相对于其邻域像素的关于论文中的论文中的$\alpha$角，小于阈值的则push进queue中，并把这些点全标记为label的值。
+
+### 算法总结与评估
+
+1. 算法本身没有涉及太多的数学知识（只有一个Savitsky-Golay滤波），Paper读起来难度也不大，代码实现上写的很规范，C++新的特性涉及了许多，算法的实时性很好。
+2. 但是由于算法本身的原理问题，使得在面对线数比较少的激光雷达时，识别效果会大大下降，若采用16线的雷达的话，其本身的分辨率则不允许该算法检测到20米以上的，尺寸较小（直径小于60cm)的物体。
+3. 当想用低线数雷达检测较远处的物体，则在vertical方向上顶多只有两三线能够检测到物体，这时我们不如把三维雷达退化为一个二维雷达来解决问题，下面学习的这个Project就是对二维雷达障碍物检测的例子。
+
+## Obstacle_detection
+
+### 源码地址
+
+[https://github.com/EpsAvlc/obstacle_detector](https://github.com/EpsAvlc/obstacle_detector)
+
 
            
