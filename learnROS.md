@@ -189,7 +189,17 @@ nodelet的主要作用是在同一个机器同一个进程中运行多个算法�
   * nodelet standalone pkg/Type   - Launch a nodelet of type pkg/Type in a standalone node
   * nodelet unload name manager   - Unload a nodelet a nodelet by name from manager
   nodelet manager               - Launch a nodelet manager node
-    
+* 编写一个nodelet的步骤：
+    1. add the necessary #includes
+    2. get rid of int main()
+    3. subclass nodelet::Nodelet （基类nodelet::Nodelet，任何nodelet继承自它可以使用plugin的方式动态加载）
+    4. move code from constructor to onInit() （实现onInit纯虚函数，用于初始化）
+    5. add the PLUGINLIB_EXPORT_CLASS macro （加入宏，将子类声明为插件类，并编译为动态库）
+    6. add <build_depend> and <run_depend> dependencies on nodelet in the package manifest.
+    7. add the <nodelet> item in the <export> part of the package manifest
+    8. create the .xml file to define the nodelet as a plugin
+    9. make the necessary changes to CMakeLists.txt
+
 
 ## TF坐标变换
 
