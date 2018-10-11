@@ -177,7 +177,41 @@ message_filters是消息滤波器。
 
 ## nodelet
 
-详见[这个网址](https://www.cnblogs.com/21207-iHome/p/8213411.html)。
+nodelet的主要作用是在同一个机器同一个进程中运行多个算法，并且免去消息间通信时所消耗的数据拷贝时间。
+* 应用场景：高吞吐量的数据流能够用多个notelet组成,并且被载入同一个process中以避免copying和网络堵塞。
+* 技术：
+  * 定义一个基类叫做nodelet::Nodelet用来动态载入(dynamic loading)。所有的nodelets可以继承该基类，并且也会因为使用pluginlib被动态载入。
+  * 会自动提供命名空间，重映射的arguments和parameters，就像是一个node节点一样。
+  * 会有一个在某个或者多个nodelet之间的nodelet_manager进程被载入。任何在其之间的通信都可以用零拷贝的boost shared指针来进行。 
+* 基本语法
+  * nodelet usage:
+  * nodelet load pkg/Type manager - Launch a nodelet of type pkg/Type on manager manager
+  * nodelet standalone pkg/Type   - Launch a nodelet of type pkg/Type in a standalone node
+  * nodelet unload name manager   - Unload a nodelet a nodelet by name from manager
+  nodelet manager               - Launch a nodelet manager node
+    
+
+## TF坐标变换
+
+### TF工具
+
+* static_transform_publisher:发布两个坐标系之间的静态坐标转换，这两个坐标系不发生相对位置变化。命令格式如下：
+  ```shell
+  $ static_transform_publisher x y z yaw pitch roll frame_id child_frame_id period_in_ms
+  $ static_transform_publisher x y z qx qy qz qw frame_id child_frame_id period_in_ms
+  ```
+  其参数第一部分为偏移参数，第二部分为旋转参数，旋转参数有两种表达形式：yaw/roll/pitch和四元数。
+* view_frames:可视化调试工具，生成pdf文件，显示整个TF树的信息。常用命令如下：
+  ```shell
+  $ rosrun tf view_frames 
+  $ evince frames.pdf # 查看pdf文件
+  ```    
+* tf_echo 工具的功能是查看指定坐标系之间的变换关系。命令的格式如下：
+  > tf_echo \<source_frame\> \<target_frame\> 
+
+## Rviz
+
+* rosrun rviz rviz -d 参数时，\`rospack find xxxx\` 不是用单引号而是用tab上面的“ \` ”符号。
 
 ## 坑
 
