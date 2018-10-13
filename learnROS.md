@@ -138,6 +138,9 @@ $ rosed [package_name] [filename]
 
 ##　ROS中的bag
 
+* rosbag recode -e 正则表达式，可直接写topic名字 -O xxxname.bag
+* rosbag play xxx.bag -l 循环播放
+
 ## rospack
 
 * rospack depends1 [package] 会查找某个package的直接依赖。rospack depends [package]则会查找某个package的所有依赖。
@@ -296,6 +299,28 @@ nodelet的主要作用是在同一个机器同一个进程中运行多个算法�
 
 ## rosdep
 
+##URDF
+
+Unified Robot Description Format( 统一机器人描述格式 )。常用标签：
+* \<link\> 用于描述机器人某个刚体部分的外观和物理属性。
+```xml
+    <link name="<link nmae>">
+        <inertial>.......</inertial>
+        <visual>.........</visual>
+        <collision>......</collision>
+    </link>
+```
+* \<joint\> 用于描述机器人关节的运动学和动力学属性。
+```xml
+    <joint name="<joint name>">
+        <parent link="parent_link"/>
+        <child link="child_link"/>
+        <calibration ..../>
+        <dynamics damping ..../><!--关节的物理属性-->
+        <limit effor ..../>
+        ....
+    </join>
+```  
 
 ## 坑
 
