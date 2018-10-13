@@ -199,6 +199,75 @@ nodelet的主要作用是在同一个机器同一个进程中运行多个算法�
     7. add the <nodelet> item in the <export> part of the package manifest
     8. create the .xml file to define the nodelet as a plugin
     9. make the necessary changes to CMakeLists.txt
+    
+    示例代码：
+    ```cpp
+    #include <pluginlib/class_list_macros.h>
+    #include <nodelet/nodelet.h>
+    #include <ros/ros.h>
+    #include <std_msgs/Float64.h>
+    #include <stdio.h>
+
+    #include <math.h> //fabs
+
+    namespace nodelet_tutorial_math  // The usage of the namespace is a good practice but not mandatory
+    {
+
+    class Plus : public nodelet::Nodelet
+    {
+    public:
+    Plus(): value_(0)
+    {}
+
+    private:
+    virtual void onInit() //当nodelet插件类被nodelet_manager加载时，nodelet插件类的onInit方法就会被调用，用于初始化插件类
+    {
+        ros::NodeHandle& private_nh = getPrivateNodeHandle();
+        private_nh.getParam("value", value_);
+        pub = private_nh.advertise<std_msgs::Float64>("out", 10);
+        sub = private_nh.subscribe("in", 10, &Plus::callback, this);
+    }
+
+    void callback(const std_msgs::Float64::ConstPtr& input)
+    {
+        std_msgs::Float64Ptr output(new std_msgs::Float64());
+        output->data = input->data + value_;
+        NODELET_DEBUG("Adding %f to get %f", value_, output->data);
+        pub.publish(output);
+    }
+
+    ros::Publisher pub;
+    ros::Subscriber sub;
+    double value_;
+    };
+
+    PLUGINLIB_DECLARE_CLASS(nodelet_tutorial_math, Plus, nodelet_tutorial_math::Plus, nodelet::Nodelet);
+    }
+    ```
+    注意为了允许类被动态加载，它必须被标记为导出类。这通过特殊宏PLUGINLIB_EXPORT_CLASS/PLUGINLIB_DECLARE_CLASS来完成，通常放在导出类的.cpp文件的末尾。 宏的参数分别为：pkg, class_name, class_type, base_class_type. 
+
+    为了让pluginlib查询ROS系统上的所有可用插件，每个包必须显式指定它导出的插件。相应的package.xml中要加入下面内容：
+    ```xml
+    ...
+    <build_depend>nodelet</build_depend>
+    <run_depend>nodelet</run_depend>
+
+    <export>
+    <nodelet plugin="${prefix}/nodelet_math.xml" />
+    </export>
+    ...
+    ```
+    插件描述文件是一个XML文件，用于存储有关插件的所有重要信息。 它包含有关插件所在的库的信息，插件的名称，插件的类型等 。nodelet_math.xml如下：
+    ```xml
+    <library path="lib/libnodelet_math">
+    <class name="nodelet_tutorial_math/Plus" type="nodelet_tutorial_math::Plus" base_class_type="nodelet::Nodelet">
+        <description> 
+        A node to add a value and republish.
+        </description>
+    </class>
+    </library>
+    ```
+
 
 
 ## TF坐标变换
@@ -222,6 +291,9 @@ nodelet的主要作用是在同一个机器同一个进程中运行多个算法�
 ## Rviz
 
 * rosrun rviz rviz -d 参数时，\`rospack find xxxx\` 不是用单引号而是用tab上面的“ \` ”符号。
+
+## rosdep
+
 
 ## 坑
 
