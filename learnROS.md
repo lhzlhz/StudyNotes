@@ -172,7 +172,19 @@ nodelet的主要作用是在同一个机器同一个进程中运行多个算法�
 
 > 一个node在ROS package中其实就是一个可执行文件。ROS nodes除了可以订阅与发布Topic之外，也可以提供或者使用Service。
 
-##　rosbag
+## parameter server
+
+* Parameter server是一个共享的、多线程的字典，可以通过network api来获得。
+* Parameter Server的数据类型
+    * 32位整形
+    * 布尔型
+    * 字符串
+    * 浮点型
+    * iso8601 dates
+    * lists
+    * base64-encoded binary date 
+
+## rosbag
 
 * rosbag recode -e 正则表达式，可直接写topic名字 -O xxxname.bag
 * rosbag play xxx.bag -l 循环播放
