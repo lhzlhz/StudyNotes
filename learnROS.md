@@ -1,38 +1,5 @@
 # ROS学习
 
-## ROS的图概念
-
-* Nodes
-    > 一个node通过ROS与其他node交流。
-* Messages
-    > Ros的数据类型，当订阅或者发布一个话题(topic)的时候使用。
-* Topics
-    > Nodes能够发布messages到topic，也能通过订阅一个topic来接收messages。
-* Master
-    > ROS的name service（推测翻译类似于主服务）。
-* rosout
-    > 在ROS中等同于stdout/stderr
-* roscore
-    > Master + rosout + parameter server(？)
-
-## Nodes
-
-> 一个node在ROS package中其实就是一个可执行文件。ROS nodes除了可以订阅与发布Topic之外，也可以提供或者使用Service。
-
-## 客户端库(Client Libraries)
-
-> ROS client libraries允许nodes以不同的编程语言来通信。
-> * rospy = python client library
-> * roscpp =  C++ client library
-
-## roscore
-
-> 当使用ROS时，应当首先运行roscore。
-
-## rosrun 语法
-
-> $ rosrun [package_name] [node_name]
-
 ## catkin
 
 使用catkin_make的一般流程：
@@ -48,68 +15,11 @@ $ catkin_make -DCMAKE_BUILD_TYPE=Release
 
 执行完catkin_make之后，生成的文件会被放在devel space(~/catkin_Ws/devel)
 
-## rostopic
+## Client Libraries
 
-*turtle_teleop_key*发布按键事件到一个topic上，*turtlesim*订阅该topic来得到按键事件。
-
-subscriber与publisher之间是通过ROS Messages来通信的。Publisher和subscriber必须发布和接收同种类型的数据。
-
-rostopic语法
-
-|语法|解释|
-|---|----|
-|rostopic bw    | display bandwidth used by topic|
-|rostopic echo  | print messages to screen|
-|rostopic hz    |display publishing rate of topic|
-|rostopic list  |print information about active topics|
-|rostopic pub    |publish data to topic|
-|rostopic type   |print topic type|
-
-## rosserive
-
-rosservice是另一种节点间可以相互通信的方法。
-|语法|解释|
-|-----|----
-|rosservice list  |       print information about active services
-|rosservice call   |      call the service with the provided args
-|rosservice type    |     print service type
-|rosservice find     |    find services by service type
-|rosservice uri       |   print service ROSRPC uri
-* paramter server
-
-## ros logger levels
-
-* Fatal
-* Error
-* Warn
-* Info
-* Debug
-
-## roslanch
-
-usage:
-$ roslaunch [package] [filename.launch]
-* 当使用roslanch时，roscore未启动，则会默认启动roscore。
-
-## rosed
-
-rosed is part of the rosbash suite. It allows you to directly edit a file within a package by using the package name rather than having to type the entire path to the package.
-
-usage:
-$ rosed [package_name] [filename]
-
-## ROS msg 和 srv
-
-* msg: msg文件是简单的text文件，里面包含了字段类型， 变量名称。可用的字段类型为：
-  * int8, int16, int32, int64 (plus uint*)
-  * float32, float64
-  * string
-  * time, duration
-  * other msg files
-  * variable-length array[] and fixed-length array[C]
-
-* 另外还有中特殊格式:Header，包含时间戳以及其他信息。
-* srv文件和msg文件类似，不同的是它由两部分组成：request和response。这两部分被用‘---’分割。
+> ROS client libraries允许nodes以不同的编程语言来通信。
+> * rospy = python client library
+> * roscpp =  C++ client library
 
 ## cpp中各种ROS函数的作用
 
@@ -135,19 +45,6 @@ $ rosed [package_name] [filename]
     > 三个参数，第三个参数为callback函数的指针，前两个参数和advertise相同。
 9. ros::spin():
     > 进入循环，如果有发布消息则执行callbakc函数，没有则进入休眠状态。
-
-##　ROS中的bag
-
-* rosbag recode -e 正则表达式，可直接写topic名字 -O xxxname.bag
-* rosbag play xxx.bag -l 循环播放
-
-## rospack
-
-* rospack depends1 [package] 会查找某个package的直接依赖。rospack depends [package]则会查找某个package的所有依赖。
-
-## rosbridge
-
-rosbridge提供了json api以与非ros程序(WebSocket等)通信。
 
 ## message_filters
 
@@ -271,7 +168,112 @@ nodelet的主要作用是在同一个机器同一个进程中运行多个算法�
     </library>
     ```
 
+## Nodes
 
+> 一个node在ROS package中其实就是一个可执行文件。ROS nodes除了可以订阅与发布Topic之外，也可以提供或者使用Service。
+
+##　rosbag
+
+* rosbag recode -e 正则表达式，可直接写topic名字 -O xxxname.bag
+* rosbag play xxx.bag -l 循环播放
+
+## rosbridge
+
+rosbridge提供了json api以与非ros程序(WebSocket等)通信。
+
+## roscore
+
+> 当使用ROS时，应当首先运行roscore。
+
+## rosed
+
+rosed is part of the rosbash suite. It allows you to directly edit a file within a package by using the package name rather than having to type the entire path to the package.
+
+usage:
+$ rosed [package_name] [filename]
+
+## ROS Graph ROS的图概念
+
+* Nodes
+    > 一个node通过ROS与其他node交流。
+* Messages
+    > ROS的数据类型，当订阅或者发布一个话题(topic)的时候使用。
+* Topics
+    > Nodes能够发布messages到topic，也能通过订阅一个topic来接收messages。
+* Master
+    > ROS的name service（推测翻译类似于主服务）。
+* rosout
+    > 在ROS中等同于stdout/stderr
+* roscore
+    > Master + rosout + parameter server(？)
+
+## ROS msg 和 srv
+
+* msg: msg文件是简单的text文件，里面包含了字段类型， 变量名称。可用的字段类型为：
+  * int8, int16, int32, int64 (plus uint*)
+  * float32, float64
+  * string
+  * time, duration
+  * other msg files
+  * variable-length array[] and fixed-length array[C]
+
+* 另外还有中特殊格式:Header，包含时间戳以及其他信息。
+* srv文件和msg文件类似，不同的是它由两部分组成：request和response。这两部分被用‘---’分割。
+
+## roslanch
+
+usage:
+$ roslaunch [package] [filename.launch]
+* 当使用roslanch时，roscore未启动，则会默认启动roscore。
+
+## ros logger levels
+
+* Fatal
+* Error
+* Warn
+* Info
+* Debug
+
+## rospack
+
+* rospack depends1 [package] 会查找某个package的直接依赖。rospack depends [package]则会查找某个package的所有依赖。
+
+## rosrun 语法
+
+> $ rosrun [package_name] [node_name]
+
+## rosserive
+
+rosservice是另一种节点间可以相互通信的方法。
+|语法|解释|
+|-----|----
+|rosservice list  |       print information about active services
+|rosservice call   |      call the service with the provided args
+|rosservice type    |     print service type
+|rosservice find     |    find services by service type
+|rosservice uri       |   print service ROSRPC uri
+* paramter server
+
+## rostopic
+
+*turtle_teleop_key*发布按键事件到一个topic上，*turtlesim*订阅该topic来得到按键事件。
+
+subscriber与publisher之间是通过ROS Messages来通信的。Publisher和subscriber必须发布和接收同种类型的数据。
+
+rostopic语法
+
+|语法|解释|
+|---|----|
+|rostopic bw    | display bandwidth used by topic|
+|rostopic echo  | print messages to screen|
+|rostopic hz    |display publishing rate of topic|
+|rostopic list  |print information about active topics|
+|rostopic pub    |publish data to topic|
+|rostopic type   |print topic type|
+
+## Rviz
+
+* rosrun rviz rviz -d 参数时，\`rospack find xxxx\` 不是用单引号而是用tab上面的“ \` ”符号。
 
 ## TF坐标变换
 
@@ -290,16 +292,8 @@ nodelet的主要作用是在同一个机器同一个进程中运行多个算法�
   ```    
 * tf_echo 工具的功能是查看指定坐标系之间的变换关系。命令的格式如下：
   > tf_echo \<source_frame\> \<target_frame\> 
-*   
 
-## Rviz
-
-* rosrun rviz rviz -d 参数时，\`rospack find xxxx\` 不是用单引号而是用tab上面的“ \` ”符号。
-* 
-
-## rosdep
-
-##URDF
+## URDF
 
 Unified Robot Description Format( 统一机器人描述格式 )。常用标签：
 * \<link\> 用于描述机器人某个刚体部分的外观和物理属性。
