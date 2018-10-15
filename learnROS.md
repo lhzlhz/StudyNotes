@@ -266,6 +266,10 @@ rosservice是另一种节点间可以相互通信的方法。
 |rosservice uri       |   print service ROSRPC uri
 * paramter server
 
+## ros::spin()
+
+在使用message_filter::sunc_policies::ApproximateTIme的时候，把消息的订阅写在类里面了，这个时候ros::spin也必须要写在类里面才能收到callback，但是普通的subscribe则不用。
+
 ## rostopic
 
 *turtle_teleop_key*发布按键事件到一个topic上，*turtlesim*订阅该topic来得到按键事件。
