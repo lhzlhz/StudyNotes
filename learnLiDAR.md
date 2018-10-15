@@ -99,7 +99,8 @@
 
 imu放在lidar上，记录0.5s或者1s的雷达与Imu的数据，并根据imu的数据把lidar的数据统一进世界坐标系中。
 
-### 实际细节
+### 实现细节
 
+* transformPointCloud(const pcl::PointCloud< PointT > &cloud_in, pcl::PointCloud< PointT > &cloud_out, const tf::Transform &transform) -- 对PointCloud进行刚体变换，该变换由一个偏置(offset)和一个四元数表示。
 
            
