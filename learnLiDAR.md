@@ -102,5 +102,6 @@ imu放在lidar上，记录0.5s或者1s的雷达与Imu的数据，并根据imu的
 ### 实现细节
 
 * transformPointCloud(const pcl::PointCloud< PointT > &cloud_in, pcl::PointCloud< PointT > &cloud_out, const tf::Transform &transform) -- 对PointCloud进行刚体变换，该变换由一个偏置(offset)和一个四元数表示。
+* 对激光雷达要进行时间上的融合，把几帧数据统一进同一坐标系之中。思路是sensor_message::pointCloud2-> Pcl::pointCloudXYZI 然后将点全add进去后再转换成sensor_message::pointCloud2
 
            
