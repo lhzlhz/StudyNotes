@@ -122,6 +122,11 @@ void write_to_file (const std::string & message) {
 * protect 关键字保证除了该类的继承类可以访问这些成员，其他用户无法访问。
 * 派生类的类派生列表(class derivation list)：由一个冒号和一个以逗号分隔的基类列表组成。每个基类可以有三种访问说明符:public、protected、private。这些说明符决定了该基类的public成员与方法在派生类中的可见程度。
 * 基类的引用或者指针可以指向派生类的实例，而由这个引用或者指针调用基类方法时会调用指向的派生类的实例的方法。
+* 基类的虚方法没有设置为纯虚函数，并且没有实现时，编译会报错，要么设为纯虚函数，要么提供实现。
+```
+undefined reference to `vtable for 虚函数'
+undefined reference to `typeinfo for 虚函数'
+```
 
 ## std::vector
 
