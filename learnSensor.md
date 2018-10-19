@@ -1,4 +1,7 @@
-# Velodyne VLP-16激光雷达
+# 传感器学习
+从以前的learnLidar.md改名而来。统一为传感器学习。
+
+## Velodyne VLP-16激光雷达
 
 ## 参数
 
@@ -104,4 +107,6 @@ imu放在lidar上，记录0.5s或者1s的雷达与Imu的数据，并根据imu的
 * transformPointCloud(const pcl::PointCloud< PointT > &cloud_in, pcl::PointCloud< PointT > &cloud_out, const tf::Transform &transform) -- 对PointCloud进行刚体变换，该变换由一个偏置(offset)和一个四元数表示。
 * 对激光雷达要进行时间上的融合，把几帧数据统一进同一坐标系之中。思路是sensor_message::pointCloud2-> Pcl::pointCloudXYZI 然后将点全add进去后再转换成sensor_message::pointCloud2
 
-           
+## MTI-G-700 GNSS/INS IMU
+
+1. 提供旋转角表示，其Roll/Pitch角的正常RMS(root mean square， 均方根)误差为0.2°，最大误差为0.25°，Yaw角会飘。
