@@ -42,3 +42,47 @@ PCL的各个模块的简单介绍。
      * specialized search for organized datesets.
 15. Binaries
    * 提供了一些PCL中的common tools的快速引用。 
+
+## Basic Structure
+
+1. pcl::PointCloud
+   * ::is_dense
+   * TODO: 被学长粗暴地打断
+  
+## Cluster
+
+1. EuclideanClusterExtraction 欧式距离分类
+
+## How to use a KdTree to search
+
+* 二分查找树--左子树上所有结点的值均小于根节点的值，右子树上所有结点的值均大于它的根结点的值。
+* FLANN--Fast Library for Approximate Nearest Neighbors，是一个执行快速近似最近邻搜索的库。
+* k-d tree--k维树结构。k-d树为二分查找树。因为处理点云，所以这里的k=3。
+  * 其所有叶节点是k维的点。所有非叶节点可以被想象成超平面来将K维空间分成两部分，称之为半空间(half-spaces)。在根节点处所有的点会被分成两部分，根据他们第一维的值。每层结构都会使用别的维度来分割点。
+  ```
+  function kdtree (list of points pointList, int depth)
+  {
+      // Select axis based on depth so that axis cycles through all valid values
+      var int axis := depth mod k;
+          
+      // Sort point list and choose median as pivot element
+      select median by axis from pointList;
+          
+      // Create node and construct subtree
+      node.location := median;
+      node.leftChild := kdtree(points in pointList before median, depth+1);
+      node.rightChild := kdtree(points in pointList after median, depth+1);
+      return node;
+  }
+  ```
+  ![一个wikipedia的例子](https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Kdtree_2d.svg/555px-Kdtree_2d.svg.png)
+  
+  k-d tree decomposition for the point set(2,3), (5,4), (9,6), (4,7), (8,1), (7,2)
+  ![](https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Tree_0001.svg/555px-Tree_0001.svg.png)
+  The resulting k-d tree.
+* 最近邻搜索在Kdtree上的应用。
+    * 搜索步骤如下：
+      1. 从根结点开始往下数。如果目标点的当前分割的维度的值，小于根结点的值，则将左结点设置为currunt best。否则设置右结点为current best。
+      2. 但同时它又设置了一个超球体，以目标点为球心，半径为current best和目标点的距离，假如该球体与分割的超平面相交的话，有可能在右边的节点处有比current best更近的点，所以从右边的点处以同样的规则往下数。
+      3. 如果没有相交，那么该算法继续走，并且整个右侧的结点都不用考虑了。
+  
