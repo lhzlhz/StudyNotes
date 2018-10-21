@@ -82,7 +82,12 @@ int main()
     std::cout << "main: " << g_i << '\n';
 }
 ```
-
+std::unorderedmap 与std::map的区别
+* unordered_map和map类似，都是存储的key-value的值，可以通过key快速索引到value。不同的是unordered_map不会根据key的大小进行排序，
+* 存储时是根据key的hash值判断元素是否相同，即unordered_map内部元素是无序的，而map中的元素是按照二叉搜索树存储，进行中序遍历会得到有序遍历。
+* 所以使用时map的key需要定义operator<。而unordered_map需要定义hash_value函数并且重载operator==。但是很多系统内置的数据类型都自带这些，
+* 那么如果是自定义类型，那么就需要自己重载operator<或者hash_value()了。
+* 结论：如果需要内部元素自动排序，使用map，不需要排序使用unordered_map
 
 ## RAII(Resource acquisition is initialization)
 
