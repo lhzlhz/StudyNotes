@@ -2,3 +2,4 @@
 
 * conceived 设想；构想
 * heuristic 启发式的；探索的
+* be conceptually divided in

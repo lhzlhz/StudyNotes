@@ -340,3 +340,4 @@ Unified Robot Description Format( 统一机器人描述格式 )。常用标签�
 
 * ros kinetic + ubuntu16.04 + gcc 5.0+ 会导致链接问题：undefined reference to `ros::console::initialize()……'
 * 在launch file里添加命令行参数时，会多添加“\__name:nodename”，“\__log:xxxx.log”两个命令行参数，会导致cmd paser失败。
+* 在nodelet所调用的node的class中，使用shared_ptr会导致load nodelet失败。目前不知道为什么。
